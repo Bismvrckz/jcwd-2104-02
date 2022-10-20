@@ -81,6 +81,7 @@ async function getAllProductsController(req, res, next) {
     const limit = parseInt(req.query.limit);
 
     const resGetAllProducts = await products.findAll({
+      where: { isPublic: true },
       offset: (page - 1) * limit,
       limit,
     });

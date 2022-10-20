@@ -12,6 +12,8 @@ function ResetPassword(props) {
 
   const router = useRouter();
   const toast = useToast();
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
 
   const handleChange = (prop) => (event) => {
     setInputs({ ...inputs, [prop]: event.target.value });
@@ -19,6 +21,18 @@ function ResetPassword(props) {
 
   const onChangePasswordClick = async () => {
     try {
+      if (!inputs.newPassword.match(passwordRegex)) {
+        return toast({
+          title: 'Password not secure!',
+          description:
+            'Must Contain at least 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+          position: 'top',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+
       if (inputs.newPassword != inputs.confirmNewPassword) {
         return toast({
           title: 'Error!',
